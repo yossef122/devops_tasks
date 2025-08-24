@@ -36,3 +36,11 @@ second task
 5- run the server using ./mvnw spring-boot:run
 
 6- start the docker file
+
+7- make the normal docker file and staging file
+
+8- build the docker file by docker build -t spring-petclinic .
+
+9- run the container docker run --name sprint-pet -p 8070:8080 -d spring-petclinic 
+
+test the running on localhost:8070 using website
