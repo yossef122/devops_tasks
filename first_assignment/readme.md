@@ -20,7 +20,7 @@ first task
 5- connect the php of nginx by port 
 6- i make the ip  192.168.1.101 as i change the vm port
 
-
+i will try 
 
 
 
@@ -44,3 +44,21 @@ second task
 9- run the container docker run --name sprint-pet -p 8070:8080 -d spring-petclinic 
 
 test the running on localhost:8070 using website
+
+
+
+second make the compose 
+
+start search for the version of mysql and postgress 
+
+then i found the version is mysql:9.2 and postgres:17.5
+
+and add the enviroment variable of mysql and postgree 
+
+and change the name of conatiner 
+and make conatiner of spring-petclinic and make it depends on the db which is made in the same file of 
+and the test the website with localhost:8081
+
+
+
+
