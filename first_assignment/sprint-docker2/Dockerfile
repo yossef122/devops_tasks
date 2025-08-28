@@ -9,7 +9,7 @@ FROM maven:3.9.6-eclipse-temurin-17-alpine AS RunBuilder
 WORKDIR /app
 
 COPY --from=CopyBuilder /app /app
-
+# should copy only jar file
 RUN ./mvnw clean  package
 
 
