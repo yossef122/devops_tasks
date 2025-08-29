@@ -19,9 +19,11 @@ first task
 4- edit the file of www.conf of fpm of php
 5- connect the php of nginx by port 
 6- i make the ip  192.168.1.101 as i change the vm port
-
-i will try 
-
+ 
+we need to put the files of servers on conf.d
+and make the socket for it 
+to make it change the lines             fastcgi_pass 192.168.1.101:8000;
+to fastcgi_pass nuix:/run/php/php8.4-fp.sock;
 
 
 
