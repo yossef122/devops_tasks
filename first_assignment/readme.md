@@ -64,3 +64,6 @@ and the test the website with localhost:8081
 
 
 
+docker run -e MYSQL_URL=jdbc:mysql://spring_mysql_manual:3306/petclinic -e SPRING_PROFILES_ACTIVE=mysql --network spring-net --name spring_app_manual -p 3010:8080 spring_petclinic_eclipse
+
+docker run -e MYSQL_USER=petclinic -e MYSQL_PASSWORD=petclinic -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=petclinic --network spring-net --name spring_mysql_manual -v mysql_manual-volume:/var/lib/mysql -p 3009:3306 mysql
