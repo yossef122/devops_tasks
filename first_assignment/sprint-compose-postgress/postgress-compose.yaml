@@ -9,6 +9,9 @@ services:
             - POSTGRES_DB=root
             - MYSQL_DATABASE=petclinic
         container_name: postgres_DB
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
     web:
         image: spring-petclinic:latest
         container_name: postgres_front_app
@@ -16,6 +19,8 @@ services:
             - db
         ports:
           - 8081:8080
+volumes:
+    postgres_data:
 
 # docker run -e POSTGRES_USER=petclinic -e POSTGRES_PASSWORD=petclinic -e POSTGRES_DB=petclinic -p 5432:5432 postgres:17.5
 
