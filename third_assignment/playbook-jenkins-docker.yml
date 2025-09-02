@@ -1,0 +1,69 @@
+---
+- name: install docker 
+  hosts: all
+  become: yes
+  tasks:
+    - name: update package
+      ansible.builtin.apt:
+        update_cache: yes
+    - name: Install required system packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - python3-pip
+        state: present
+
+    - name: Install Python requests library with pip
+      pip:
+        name: requests
+        executable: pip3
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+
+    - name: Update package cache after adding repo
+      apt:
+        update_cache: yes        
+    - name: install docker-ce
+      ansible.builtin.apt:
+        name: docker-ce
+        state: present
+    - name: install docker-ce-cli
+      ansible.builtin.apt:
+        name: docker-ce-cli
+        state: present
+    - name: install containerd.io
+      ansible.builtin.apt:
+        name: containerd.io
+        state: present
+    - name: install docker-buildx-plugin
+      ansible.builtin.apt:
+        name: docker-buildx-plugin
+        state: present
+    - name: install docker-compose-plugin
+      ansible.builtin.apt:
+        name: docker-compose-plugin
+        state: present   
+
+    - name: install jenkins image
+      shell: docker pull jenkins/jenkins:lts 
+      args:
+        creates: /var/lib/docker/image/overlay2/repositories.json
+
+    - name: create volume for jenkins data
+      shell: docker volume create jenkins-data
+
+    - name: create jenkins conatiner
+      shell: docker run -d -p 8080:8080 -p 50000:50000 -v jenkins-data:/var/jenkins_home --name jenkins-test jenkins/jenkins:lts  
+      args:
+        creates: /var/lib/docker/containers/*jenkins-test*

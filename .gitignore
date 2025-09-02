@@ -1,0 +1,14 @@
+first_assignment/spring-petclinic/
+second_assignment/sonar-scanner-5.0.1.3006-linux
+second_assignment/sonarqube-25.8.0.112029
+second_assignment/spring-petclinic
+second_assignment/sonar-scanner-cli-5.0.1.3006-linux.zip
+second_assignment/sonarqube-25.8.0.112029.zip
+
+
+# Common ignores
+*.class
+*.log
+*.tmp
+*.swp
+.DS_Store

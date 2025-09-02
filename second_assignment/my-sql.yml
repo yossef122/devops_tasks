@@ -1,0 +1,62 @@
+services:
+    sonarQube:
+        image: sonarqube:lts-community
+        ports: 
+            - 9000:9000
+        volumes:
+            - sonarQube:/opt/sonarqube/data 
+            - sonarQube_extensions:/opt/sonarqube/extensions
+        container_name: sonarq
+        environment:
+            - SONAR_JDBC_USERNAME=sonar
+            - SONAR_JDBC_PASSWORD=sonar
+        networks:
+            - project_network
+    db:
+        image: mysql:9.2
+        ports: 
+            - 3306:3306
+        environment:
+            - MYSQL_USER=petclinic
+            - MYSQL_PASSWORD=petclinic
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=petclinic
+            - MYSQL_DATABASE_SONAR=sonar  
+        volumes:
+            - mysql_data:/var/lib/mysql 
+        container_name: MYSQL_DB
+        
+        networks:
+            - project_network
+        
+        
+    web:
+        image: spring-petclinic:latest
+        container_name: front_app
+        depends_on:
+            - db
+        ports:
+          - 8080:8080
+        environment:
+            - MYSQL_URL=jdbc:mysql://MYSQL_DB:3306/petclinic
+            - SPRING_PROFILES_ACTIVE=mysql
+            - MYSQL_USER=petclinic
+            - MYSQL_PASSWORD=petclinic
+        
+        networks:
+            - project_network
+    
+volumes:
+    mysql_data:
+    sonarQube:
+    sonarQube_extensions:
+networks:
+    project_network:
+
+#docker run -e 
+#MYSQL_USER=petclinic -e 
+#MYSQL_PASSWORD=petclinic -e 
+#MYSQL_ROOT_PASSWORD=root -e 
+#MYSQL_DATABASE=petclinic -p 
+#3306:3306 mysql:9.2
+#  -e  --network spring-net --name spring_app_manual -p 3010:8080 spring_petclinic_eclipse

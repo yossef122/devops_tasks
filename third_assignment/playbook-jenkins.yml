@@ -1,0 +1,34 @@
+---
+- name: adhoc
+  hosts: all
+  become: true
+  tasks:
+    - name: Update package cache after adding repo
+      apt:
+        update_cache: yes       
+
+    - name: Create apt keyrings directory
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+    
+    - name: Download Long Term Support jenkins pkg
+      get_url:
+        url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+        dest: /etc/apt/keyrings/jenkins-keyring.asc
+        mode: '0644'
+
+    - name: Add Jenkins repository
+      apt_repository:
+        repo: "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+        state: present
+        filename: jenkins.list
+    - name: Update package cache after adding repo
+      apt:
+        update_cache: yes       
+    
+    - name: install jenkins
+      apt:
+        name: jenkins
+        state: present

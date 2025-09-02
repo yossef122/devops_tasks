@@ -1,0 +1,37 @@
+services:
+    db:
+        image: mysql:9.2
+        ports: 
+            - 3306:3306
+        environment:
+            - MYSQL_USER=petclinic
+            - MYSQL_PASSWORD=petclinic
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=petclinic
+        volumes:
+            - mysql_data:/var/lib/mysql 
+        container_name: MYSQL_DB
+        
+        
+    web:
+        image: spring-petclinic:latest
+        container_name: front_app
+        depends_on:
+            - db
+        ports:
+          - 8080:8080
+        environment:
+            - MYSQL_URL=jdbc:mysql://MYSQL_DB:3306/petclinic
+            - SPRING_PROFILES_ACTIVE=mysql
+            - MYSQL_USER=petclinic
+            - MYSQL_PASSWORD=petclinic
+volumes:
+    mysql_data:
+
+#docker run -e 
+#MYSQL_USER=petclinic -e 
+#MYSQL_PASSWORD=petclinic -e 
+#MYSQL_ROOT_PASSWORD=root -e 
+#MYSQL_DATABASE=petclinic -p 
+#3306:3306 mysql:9.2
+#  -e  --network spring-net --name spring_app_manual -p 3010:8080 spring_petclinic_eclipse
